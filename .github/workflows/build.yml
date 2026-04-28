@@ -8,10 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo with submodules
+      - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
+
+      - name: Initialize and update submodules
+        run: |
+          git submodule update --init --recursive
 
       - name: Setup Java
         uses: actions/setup-java@v4
