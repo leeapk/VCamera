@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          submodules: true
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -19,14 +17,8 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Install Gradle
-        run: |
-          wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
-          unzip gradle-7.5-bin.zip
-          export PATH=$PATH:$PWD/gradle-7.5/bin
-
       - name: Build APK
-        run: gradle assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
