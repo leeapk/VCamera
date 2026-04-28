@@ -1,15 +1,14 @@
 name: Build APK
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           submodules: true
@@ -20,11 +19,14 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Grant permission
-        run: chmod +x gradlew
+      - name: Install Gradle
+        run: |
+          wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
+          unzip gradle-7.5-bin.zip
+          export PATH=$PATH:$PWD/gradle-7.5/bin
 
       - name: Build APK
-        run: ./gradlew assembleDebug
+        run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
